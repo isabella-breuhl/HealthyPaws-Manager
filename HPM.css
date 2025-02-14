@@ -1,0 +1,52 @@
+
+body {
+    font-family:'Franklin Gothic Medium', 'Arial Narrow Bold', Arial, sans-serif;
+    padding: 1px;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    margin-top: 100px;
+    background-color: rgb(163, 250, 217);
+}
+
+.container {
+    background-size: cover;
+    padding: 5px;
+    height: 500px;
+    width: 860px;
+    margin-top: 0px;
+    float: center;
+    position: absolute;
+    background-color: rgb(116, 74, 251);
+    .logo {
+        float: right;
+        position: absolute;
+        top: 15px; right: 15px;
+    }
+}
+
+.queries {
+    height: 50px;
+    padding: 10px;
+    background-color: rgb(178, 156, 251);
+}
+
+button {
+    background-color: rgb(245, 222, 255);
+    border-radius: 10px;
+    width: 120px;
+}
+
+.query1 {
+    width: 140px;
+}
+
+.query2 {
+    width: 185px;
+}
+
+.page {
+    height: 310px;
+    padding: 20px;
+    background-color: rgb(178, 156, 251);
+}

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CS 364 Final Project</title>
+        <link rel="stylesheet" type="text/css" href="HPM.css"> 
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    </head>
+
+    <style>
+        body {
+            font-family:'Franklin Gothic Medium', 'Arial Narrow Bold', Arial, sans-serif;
+            padding: 1px;
+            justify-content: center;
+            text-align: center;
+            display: flex;
+            margin-top: 100px;
+            background-color: rgb(163, 250, 217);
+        }
+        
+        .container {
+            background-size: cover;
+            padding: 5px;
+            height: 500px;
+            width: 860px;
+            margin-top: 0px;
+            float: center;
+            position: absolute;
+            background-color: rgb(116, 74, 251);
+        }
+        
+        .queries {
+            height: 50px;
+            padding: 10px;
+            background-color: rgb(178, 156, 251);
+        }
+        
+        button {
+            background-color: white;
+            border-color: black;
+            border-radius: 20px;
+            width: 160px;
+            height: 30px;
+        }
+        
+        .query1 {
+            width: 190px;
+        }
+        
+        .query2 {
+            width: 185px;
+        }
+        
+        .page {
+            height: 310px;
+            padding: 20px;
+            background-color: rgb(178, 156, 251);
+        }
+    </style>
+
+    <body>
+        <div class="container">
+            <h1>HealthyPaws Manager</h1>
+            <div class="queries">
+                <button type="button" class="query1"><b>Upcoming Appointments</b></button>
+                <button type="button" class="query2"><b>Single Pet Households</b></button>
+                <button type="button" id="query3"><b>Birthdays!</b></button>
+                
+            </div>
+            <div class="page">
+                <div id="start">Welcome to your HealthyPaws Manager!</div>
+            </div>
+            
+        </div>
+        <script>
+            $(document).ready(function() {
+                
+                //Query Buttons
+                let apptButton = document.getElementsByClassName("query1");
+                let petButton = document.getElementsByClassName("query2");
+                let bdayButton = document.getElementById("query3");
+               
+                begin();
+                function begin() {
+                    //Function to get all upcoming appointments within 2 weeks
+                    $(apptButton).on('click', function() {
+                        displayAppointment('query22.sql');
+                    });
+
+                     //Function to get households with only one pet
+                     $(petButton).on('click', function() {
+                        displayOnePets('query21.sql');
+                    });
+
+                    //Function to get upcoming birthdays
+                    $(bdayButton).on('click', function() {
+                        displayBdays('query23.sql');
+                    });
+                }
+
+                function displayOnePets(queryName) {
+                    fetch(`/run_query/${queryName}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const startDiv = document.getElementById('start');
+                            startDiv.innerHTML = ' '; // Clear previous content
+
+                            // Iterate over each item in the data array
+                            data.forEach(item => {
+                                // Create a new div element to display the item
+                                const resultDiv = document.createElement('div');
+
+                                // Customize the style of the div
+                                resultDiv.style.border = '1px solid #ccc';
+                                resultDiv.style.padding = '13px';
+                                resultDiv.style.fontSize = '15px';
+                                resultDiv.style.color= 'black';
+                                resultDiv.style.marginBottom = '5px';
+                                resultDiv.style.textAlign = 'center';
+                                resultDiv.style.backgroundColor = 'white';
+
+                                // Create HTML content for the item
+                                const htmlContent = `
+                                    <p><strong>Name:</strong> ${item.FirstName} ${item.LastName}  &nbsp &nbsp &nbsp &nbsp          
+                                        <strong>Pet:</strong> ${item.Name} &nbsp &nbsp &nbsp &nbsp       
+                                        <strong>Phone:</strong> ${item.Phone}</p>
+                                
+                                    <!-- Add more properties as needed -->
+                                `;
+
+                                // Set the HTML content of the div
+                                resultDiv.innerHTML = htmlContent;
+
+                                // Append the div to the startDiv
+                                startDiv.appendChild(resultDiv);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching data:', error);
+                        });
+                }
+
+                function displayAppointment(queryName) {
+                    fetch(`/run_query/${queryName}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const startDiv = document.getElementById('start');
+                            startDiv.innerHTML = ' '; // Clear previous content
+
+                            // Iterate over each item in the data array
+                            data.forEach(item => {
+                                // Create a new div element to display the item
+                                const resultDiv = document.createElement('div');
+
+                                // Customize the style of the div
+                                resultDiv.style.border = '1px solid #ccc';
+                                resultDiv.style.padding = '13px';
+                                resultDiv.style.fontSize = '15px';
+                                resultDiv.style.color= 'black';
+                                resultDiv.style.marginBottom = '5px';
+                                resultDiv.style.textAlign = 'center';
+                                resultDiv.style.backgroundColor = 'white';
+
+                                // Create HTML content for the item
+                                const htmlContent = `
+                                    <p><strong>Name:</strong> ${item.Name}  &nbsp &nbsp &nbsp &nbsp          
+                                        <strong>Date:</strong> ${item.Date} &nbsp &nbsp &nbsp &nbsp       
+                                        <strong>Time:</strong> ${item.Time}</p>
+                                
+                                    <!-- Add more properties as needed -->
+                                `;
+
+                                // Set the HTML content of the div
+                                resultDiv.innerHTML = htmlContent;
+
+                                // Append the div to the startDiv
+                                startDiv.appendChild(resultDiv);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching data:', error);
+                        });
+                }
+
+                function displayBdays(queryName) {
+                    fetch(`/run_query/${queryName}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const startDiv = document.getElementById('start');
+                            startDiv.innerHTML = ' '; // Clear previous content
+
+                            // Iterate over each item in the data array
+                            data.forEach(item => {
+                                // Create a new div element to display the item
+                                const resultDiv = document.createElement('div');
+
+                                // Customize the style of the div
+                                resultDiv.style.border = '1px solid #ccc';
+                                resultDiv.style.padding = '13px';
+                                resultDiv.style.fontSize = '15px';
+                                resultDiv.style.color= 'black';
+                                resultDiv.style.marginBottom = '5px';
+                                resultDiv.style.textAlign = 'center';
+                                resultDiv.style.backgroundColor = 'white';
+
+                                // Create HTML content for the item
+                                const htmlContent = `
+                                    <p><strong>Pet:</strong> ${item.Name}&nbsp &nbsp &nbsp &nbsp          
+                                        <strong>Birthday:</strong> ${item.Birthday} &nbsp &nbsp &nbsp &nbsp</p>
+                                
+                                    <!-- Add more properties as needed -->
+                                `;
+
+                                // Set the HTML content of the div
+                                resultDiv.innerHTML = htmlContent;
+
+                                // Append the div to the startDiv
+                                startDiv.appendChild(resultDiv);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching data:', error);
+                        });
+                }
+            }); //end of ready function
+        </script>
+    </body>
+</html>
